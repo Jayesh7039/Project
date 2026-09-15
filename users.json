@@ -1,0 +1,31 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "name": "Jayesh Mishra",
+            "email": "jayesh12@gmail.com",
+            "password": "Jayesh@12",
+            "role": "student",
+            "course": "MCA",
+            "active": true
+        },
+        {
+            "id": 2,
+            "name": "Swaraj",
+            "email": "swaraj12@gmail.com",
+            "password": "Swaraj12@gmail.com",
+            "role": "student",
+            "course": "Computer Science",
+            "active": true
+        },
+        {
+            "id": 3,
+            "name": "Jayesh Mishra",
+            "email": "majay3068@gmail.com",
+            "password": "Jayesh@123",
+            "role": "student",
+            "course": "MCA",
+            "active": true
+        }
+    ]
+}

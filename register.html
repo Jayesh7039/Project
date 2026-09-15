@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study From Home | Register</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 25px;
+      background:
+        radial-gradient(circle at top left, #dcd5ff, transparent 35%),
+        linear-gradient(135deg, #f7f8ff, #e9eaff);
+      color: #202044;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 1150px;
+      min-height: 700px;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      overflow: hidden;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 25px 80px rgba(63, 52, 130, 0.2);
+      backdrop-filter: blur(20px);
+    }
+
+    .art-section {
+      position: relative;
+      overflow: hidden;
+      padding: 55px;
+      color: white;
+      background: linear-gradient(145deg, #5b3df5, #8c52ff 55%, #c36bff);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .art-section::before,
+    .art-section::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.35;
+    }
+
+    .art-section::before {
+      width: 320px;
+      height: 320px;
+      top: -130px;
+      right: -100px;
+      background: #ffffff;
+    }
+
+    .art-section::after {
+      width: 260px;
+      height: 260px;
+      bottom: -110px;
+      left: -90px;
+      background: #39d5ff;
+    }
+
+    .brand-title {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .art-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .art-content h1 {
+      font-size: 38px;
+      line-height: 1.25;
+      margin-bottom: 18px;
+
+      font-weight: 700;
+    }
+
+    .art-content p {
+      font-size: 15px;
+      opacity: 0.92;
+
+      line-height: 1.6;
+    }
+
+    .learning-card {
+      position: relative;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 20px;
+      padding: 22px;
+      backdrop-filter: blur(12px);
+    }
+
+    .learning-card small {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.85;
+    }
+
+    .learning-card h3 {
+      font-size: 22px;
+
+      margin: 6px 0 14px;
+    }
+
+    .student-icons {
+      display: flex;
+      gap: 10px;
+
+      margin-top: 15px;
+    }
+
+    .student-icons span {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 12px;
+
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .form-section {
+      padding: 50px 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+    }
+
+    .form-box {
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .form-box h2 {
+      font-size: 30px;
+      font-weight: 700;
+      color: #1e1940;
+
+      margin-bottom: 6px;
+    }
+
+    .form-box .subtitle {
+      font-size: 14px;
+      color: #6d6b88;
+      margin-bottom: 25px;
+
+      line-height: 1.5;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+
+      color: #383456;
+      margin-bottom: 6px;
+    }
+
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      height: 48px;
+      padding: 0 45px 0 16px;
+
+      border-radius: 14px;
+      border: 1.5px solid #e1e3f0;
+      background: #f8f9fe;
+
+      font-size: 14px;
+      color: #1e1940;
+
+      outline: none;
+      transition: all 0.25s ease;
+    }
+
+    .input-group select {
+      padding-right: 20px;
+      cursor: pointer;
+    }
+
+    .input-group input:focus,
+    .input-group select:focus {
+      border-color: #7c52ff;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(124, 82, 255, 0.12);
+    }
+
+    .input-icon {
+      position: absolute;
+      right: 15px;
+      top: 38px;
+
+      color: #8c8aa7;
+      font-size: 16px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .password-strength {
+      height: 4px;
+      width: 100%;
+
+      background: #e8e9f5;
+      border-radius: 2px;
+      margin: -6px 0 16px;
+      overflow: hidden;
+    }
+
+    .password-strength div {
+      height: 100%;
+      width: 0%;
+
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    .login-btn {
+      width: 100%;
+      height: 50px;
+      border: none;
+      border-radius: 14px;
+
+      background: linear-gradient(135deg, #6c47ff, #8c52ff);
+      color: white;
+
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 12px 28px rgba(108, 71, 255, 0.3);
+
+      transition: all 0.25s ease;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 32px rgba(108, 71, 255, 0.4);
+    }
+
+    .login-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+
+      transform: none;
+    }
+
+    .message {
+      margin-top: 15px;
+      padding: 12px 15px;
+      border-radius: 12px;
+      font-size: 13px;
+
+      display: none;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .social-buttons {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .social-buttons button {
+      height: 44px;
+      border-radius: 12px;
+      border: 1.5px solid #e3e5f2;
+
+      background: #ffffff;
+      color: #312c52;
+
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+
+      transition: all 0.2s ease;
+    }
+
+    .social-buttons button:hover {
+      border-color: #6c47ff;
+      background: #f7f6ff;
+    }
+
+    .signup {
+      margin-top: 22px;
+
+      text-align: center;
+      font-size: 13px;
+      color: #6d6b88;
+    }
+
+    .signup a {
+      color: #6c47ff;
+
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .signup a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      .login-container {
+        grid-template-columns: 1fr;
+      }
+
+      .art-section {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-container">
+    <section class="art-section">
+      <div class="brand-title">Study From Home</div>
+
+      <div class="art-content">
+        <h1>Start Learning<br />With Us Today</h1>
+        <p>
+          Join thousands of students managing their subjects, tasks, and academic progress effortlessly.
+        </p>
+      </div>
+
+      <div class="learning-card">
+        <small>Interactive Platform</small>
+        <h3>100% Free Account</h3>
+        <div class="student-icons">
+          <span>Java</span>
+          <span>DBMS</span>
+          <span>AI</span>
+          <span>CN</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <div class="form-box">
+        <h2>Create Account ✨</h2>
+        <p class="subtitle">Fill in your details below to register your student account.</p>
+
+        <form id="registerForm">
+          <div class="input-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Enter your full name" required />
+            <span class="input-icon">👤</span>
+          </div>
+
+          <div class="input-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="Enter your email" autocomplete="email" required />
+            <span class="input-icon">✉</span>
+          </div>
+
+          <div class="input-group">
+            <label for="course">Course / Program</label>
+            <select id="course" required>
+              <option value="MCA">MCA (Master of Computer Applications)</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="B.Tech IT">B.Tech Information Technology</option>
+              <option value="Data Science">Data Science</option>
+              <option value="Software Engineering">Software Engineering</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Create a password" autocomplete="new-password" required />
+            <span class="input-icon password-toggle" id="togglePassword" role="button" tabindex="0">👁</span>
+          </div>
+
+          <div class="password-strength">
+            <div id="strengthBar"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" placeholder="Confirm your password" autocomplete="new-password" required />
+            <span class="input-icon password-toggle" id="toggleConfirmPassword" role="button" tabindex="0">👁</span>
+          </div>
+
+          <button class="login-btn" type="submit" id="registerButton">
+            Create Account →
+          </button>
+        </form>
+
+        <div class="message" id="message" role="alert"></div>
+
+        <div class="social-buttons">
+          <button type="button" id="googleLogin">Google</button>
+          <button type="button" id="githubLogin">GitHub</button>
+        </div>
+
+        <p class="signup">
+          Already have an account?
+          <a href="index.html" id="loginLink">Sign in</a>
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const registerForm = document.getElementById("registerForm");
+      const nameInput = document.getElementById("name");
+      const emailInput = document.getElementById("email");
+      const courseInput = document.getElementById("course");
+      const passwordInput = document.getElementById("password");
+      const confirmPasswordInput = document.getElementById("confirmPassword");
+      const togglePassword = document.getElementById("togglePassword");
+      const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+      const strengthBar = document.getElementById("strengthBar");
+      const message = document.getElementById("message");
+      const registerButton = document.getElementById("registerButton");
+
+      const API_URL = "http://127.0.0.1:5000/api/register";
+
+      function showMessage(text, error = false) {
+        message.style.display = "block";
+        message.textContent = text;
+        message.style.color = error ? "#a92740" : "#236b43";
+        message.style.background = error ? "#ffe8ed" : "#e5f8ec";
+      }
+
+      function toggleVisibility(inputEl, toggleEl) {
+        const isPassword = inputEl.type === "password";
+        inputEl.type = isPassword ? "text" : "password";
+        toggleEl.textContent = isPassword ? "🙈" : "👁";
+      }
+
+      togglePassword.addEventListener("click", () => toggleVisibility(passwordInput, togglePassword));
+      toggleConfirmPassword.addEventListener("click", () => toggleVisibility(confirmPasswordInput, toggleConfirmPassword));
+
+      passwordInput.addEventListener("input", () => {
+        const password = passwordInput.value;
+        let strength = 0;
+
+        if (password.length >= 6) strength += 25;
+        if (password.length >= 10) strength += 25;
+        if (/[A-Z]/.test(password)) strength += 25;
+        if (/[0-9]/.test(password)) strength += 15;
+        if (/[^A-Za-z0-9]/.test(password)) strength += 10;
+
+        strengthBar.style.width = strength + "%";
+
+        if (strength < 40) {
+          strengthBar.style.background = "#ff5d73";
+        } else if (strength < 75) {
+          strengthBar.style.background = "#ffbd59";
+        } else {
+          strengthBar.style.background = "#35c77a";
+        }
+      });
+
+      registerForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const course = courseInput.value;
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+
+        if (!name || !email || !password || !confirmPassword) {
+          showMessage("Please fill in all required fields.", true);
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          showMessage("Passwords do not match.", true);
+          return;
+        }
+
+        if (password.length < 6) {
+          showMessage("Password must be at least 6 characters long.", true);
+          return;
+        }
+
+        registerButton.disabled = true;
+        registerButton.textContent = "Creating Account...";
+
+        try {
+          const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              name: name,
+              email: email,
+              course: course,
+              password: password
+            })
+          });
+
+          const result = await response.json();
+
+          if (!response.ok || !result.success) {
+            showMessage(result.message || "Registration failed.", true);
+            return;
+          }
+
+          const userData = JSON.stringify(result.user);
+          localStorage.setItem("studyFromHomeUser", userData);
+
+          showMessage("Account created successfully! Redirecting to dashboard...");
+
+          setTimeout(() => {
+            window.location.href = "dashboard.html";
+          }, 1200);
+
+        } catch (error) {
+          console.error("Registration error:", error);
+          showMessage("Backend is not running. Please start app.py.", true);
+        } finally {
+          registerButton.disabled = false;
+          registerButton.textContent = "Create Account →";
+        }
+      });
+
+      document.getElementById("googleLogin").addEventListener("click", () => {
+        window.open("https://www.google.com", "_blank");
+      });
+
+      document.getElementById("githubLogin").addEventListener("click", () => {
+        window.open("https://www.github.com", "_blank");
+      });
+    });
+  </script>
+</body>
+
+</html>

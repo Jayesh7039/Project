@@ -1,0 +1,1687 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Study From Home Dashboard</title>
+
+    <style>
+      :root {
+        --primary: #4f46e5;
+        --primary-light: #eef2ff;
+        --secondary: #06b6d4;
+        --background: #f4f7fb;
+        --card: #ffffff;
+        --text: #172033;
+        --muted: #64748b;
+        --border: #e5e7eb;
+        --success: #16a34a;
+        --warning: #d97706;
+        --danger: #dc2626;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        background: var(--background);
+        color: var(--text);
+        transition:
+          background 0.3s ease,
+          color 0.3s ease;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      .layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: 250px;
+        background: linear-gradient(180deg, var(--primary), #111827);
+        color: white;
+        padding: 24px 15px;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 20;
+      }
+
+      .logo {
+        font-size: 21px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 35px;
+      }
+
+      .nav-button {
+        width: 100%;
+        border: none;
+        background: transparent;
+        color: #dbeafe;
+        padding: 14px;
+        margin: 6px 0;
+        border-radius: 10px;
+        text-align: left;
+        font-size: 15px;
+        cursor: pointer;
+        transition: 0.25s;
+      }
+
+      .nav-button:hover,
+      .nav-button.active {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+      }
+
+      .logout {
+        position: absolute;
+        bottom: 25px;
+        left: 15px;
+        width: calc(100% - 30px);
+        background: #dc2626;
+      }
+
+      .main {
+        width: calc(100% - 250px);
+        margin-left: 250px;
+        padding: 30px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .topbar h1 {
+        font-size: 28px;
+        margin-bottom: 8px;
+      }
+
+      .topbar p {
+        color: var(--muted);
+      }
+
+      .user-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--card);
+        padding: 12px 18px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px #00000008;
+      }
+
+      .avatar,
+      .large-avatar {
+        border-radius: 50%;
+        background: var(--primary);
+        color: white;
+        display: grid;
+        place-items: center;
+        font-weight: bold;
+      }
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+      }
+
+      .large-avatar {
+        width: 75px;
+        height: 75px;
+        font-size: 26px;
+      }
+
+      .page {
+        display: none;
+      }
+
+      .page.active {
+        display: block;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 25px;
+      }
+
+      .stat-card,
+      .content-card,
+      .subject-card {
+        background: var(--card);
+        border-radius: 16px;
+        padding: 22px;
+        box-shadow: 0 5px 25px #00000008;
+      }
+
+      .stat-card h3 {
+        color: var(--muted);
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      .stat-card strong {
+        font-size: 30px;
+        color: var(--primary);
+      }
+
+      .section-title {
+        margin-bottom: 18px;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .subject-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+      }
+
+      .subject-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      .subject-icon {
+        font-size: 28px;
+      }
+
+      .subject-card p {
+        color: var(--muted);
+        margin-top: 7px;
+        line-height: 1.5;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 10px;
+        background: var(--border);
+        border-radius: 20px;
+        overflow: hidden;
+        margin-top: 12px;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 20px;
+        transition: width 0.4s ease;
+      }
+
+      .task-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 17px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .task-item:last-child {
+        border-bottom: none;
+      }
+
+      .task-item input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: var(--primary);
+        flex-shrink: 0;
+      }
+
+      .task-info {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .task-info strong {
+        display: block;
+        margin-bottom: 7px;
+        overflow-wrap: anywhere;
+      }
+
+      .task-info small {
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .task-item.completed .task-info strong {
+        text-decoration: line-through;
+        color: var(--muted);
+      }
+
+      .task-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .task-badge {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      .priority-low {
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      .priority-medium {
+        background: #fef3c7;
+        color: #92400e;
+      }
+
+      .priority-high {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+
+      .subject-badge {
+        background: var(--primary-light);
+        color: var(--primary);
+      }
+
+      .primary-button,
+      .secondary-button {
+        border: none;
+        border-radius: 9px;
+        padding: 11px 16px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.25s;
+      }
+
+      .primary-button {
+        background: var(--primary);
+        color: white;
+      }
+
+      .primary-button:hover {
+        opacity: 0.85;
+        transform: translateY(-1px);
+      }
+
+      .secondary-button {
+        background: var(--primary-light);
+        color: var(--primary);
+      }
+
+      .secondary-button:hover {
+        opacity: 0.8;
+      }
+
+      .empty {
+        color: var(--muted);
+        padding: 20px 0;
+      }
+
+      .profile-row {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.6);
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        z-index: 100;
+      }
+
+      .modal.show {
+        display: flex;
+      }
+
+      .modal-box {
+        background: var(--card);
+        width: 100%;
+        max-width: 550px;
+        max-height: 85vh;
+        overflow-y: auto;
+        border-radius: 18px;
+        padding: 25px;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .modal-header p {
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      .close-button {
+        border: none;
+        background: transparent;
+        font-size: 25px;
+        cursor: pointer;
+        color: var(--muted);
+      }
+
+      form label {
+        display: block;
+        font-weight: bold;
+        margin: 15px 0 7px;
+      }
+
+      form input,
+      form select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        outline: none;
+        background: var(--card);
+        color: var(--text);
+      }
+
+      form input:focus,
+      form select:focus {
+        border-color: var(--primary);
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 25px;
+      }
+
+      .subject-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+      }
+
+      .subject-option:hover {
+        border-color: var(--primary);
+        background: var(--primary-light);
+      }
+
+      .subject-option input {
+        margin-top: 4px;
+        accent-color: var(--primary);
+      }
+
+      .subject-option small {
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .theme-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .theme-color {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 3px solid white;
+        outline: 2px solid transparent;
+        cursor: pointer;
+      }
+
+      .theme-color.selected {
+        outline-color: var(--text);
+      }
+
+      .theme-purple {
+        background: #4f46e5;
+      }
+
+      .theme-blue {
+        background: #2563eb;
+      }
+
+      .theme-green {
+        background: #059669;
+      }
+
+      .theme-orange {
+        background: #ea580c;
+      }
+
+      .theme-pink {
+        background: #db2777;
+      }
+
+      .theme-red {
+        background: #dc2626;
+      }
+
+      @media (max-width: 1100px) {
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 900px) {
+        .subject-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 650px) {
+        .sidebar {
+          width: 205px;
+        }
+
+        .main {
+          width: calc(100% - 205px);
+          margin-left: 205px;
+          padding: 18px;
+        }
+
+        .topbar,
+        .section-header {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .user-box {
+          width: 100%;
+        }
+
+        .stat-card,
+        .content-card,
+        .subject-card {
+          padding: 17px;
+        }
+      }
+
+      @media (max-width: 450px) {
+        .sidebar {
+          width: 175px;
+          padding: 20px 10px;
+        }
+
+        .main {
+          width: calc(100% - 175px);
+          margin-left: 175px;
+          padding: 12px;
+        }
+
+        .logo {
+          font-size: 16px;
+        }
+
+        .nav-button {
+          font-size: 12px;
+          padding: 11px 8px;
+        }
+
+        .topbar h1 {
+          font-size: 23px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ADD TASK MODAL -->
+    <div class="modal" id="addTaskModal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <div>
+            <h2>Add New Task</h2>
+            <p>Create a personal assignment or study task.</p>
+          </div>
+
+          <button class="close-button" id="closeAddTaskModal" type="button">
+            ×
+          </button>
+        </div>
+
+        <form id="addTaskForm">
+          <label for="taskTitle">Task Title</label>
+          <input
+            type="text"
+            id="taskTitle"
+            placeholder="Enter task title"
+            required
+          />
+
+          <label for="taskSubject">Subject</label>
+          <select id="taskSubject" required>
+            <option value="">Select subject</option>
+          </select>
+
+          <label for="taskDueDate">Due Date</label>
+          <input type="date" id="taskDueDate" required />
+
+          <label for="taskPriority">Priority</label>
+          <select id="taskPriority">
+            <option value="Low">Low</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="High">High</option>
+          </select>
+
+          <div class="modal-actions">
+            <button type="button" class="secondary-button" id="cancelAddTask">
+              Cancel
+            </button>
+
+            <button type="submit" class="primary-button">Save Task</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="logo">📚 Study From Home</div>
+
+        <button class="nav-button active" data-page="dashboardPage">
+          🏠 Dashboard
+        </button>
+
+        <button class="nav-button" data-page="subjectsPage">
+          📘 My Subjects
+        </button>
+
+        <button class="nav-button" data-page="assignmentsPage">
+          📝 Assignments
+        </button>
+
+        <button class="nav-button" data-page="progressPage">
+          📊 My Progress
+        </button>
+
+        <button class="nav-button" data-page="profilePage">👤 Profile</button>
+
+        <button class="nav-button" data-page="settingsPage">⚙️ Settings</button>
+
+        <button class="nav-button logout" id="logoutButton">🚪 Logout</button>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main">
+        <div class="topbar">
+          <div>
+            <h1 id="pageTitle">Dashboard</h1>
+            <p id="welcomeText">Welcome back!</p>
+          </div>
+
+          <div class="user-box">
+            <div class="avatar" id="topAvatar">JS</div>
+            <strong id="topUserName">Student</strong>
+          </div>
+        </div>
+
+        <!-- DASHBOARD PAGE -->
+        <section class="page active" id="dashboardPage">
+          <div class="stats">
+            <div class="stat-card">
+              <h3>Total Subjects</h3>
+              <strong id="totalSubjects">0</strong>
+            </div>
+
+            <div class="stat-card">
+              <h3>Completed Tasks</h3>
+              <strong id="completedTasks">0</strong>
+            </div>
+
+            <div class="stat-card">
+              <h3>Pending Tasks</h3>
+              <strong id="pendingTasks">0</strong>
+            </div>
+
+            <div class="stat-card">
+              <h3>Overall Progress</h3>
+              <strong id="overallProgress">0%</strong>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <div class="section-header">
+              <h2>My Subjects</h2>
+
+              <div>
+                <button class="primary-button" id="changeSubjectButton">
+                  Change Subjects
+                </button>
+                <button class="primary-button" id="openAddSubjectBtn" style="background: linear-gradient(135deg, #10b981, #059669); margin-left: 8px;">
+                  + Add Subject
+                </button>
+              </div>
+            </div>
+
+            <div class="subject-grid" id="dashboardSubjects"></div>
+          </div>
+
+          <br />
+
+          <div class="content-card">
+            <h2 class="section-title">Today's Tasks</h2>
+            <div id="dashboardTasks"></div>
+          </div>
+        </section>
+
+        <!-- SUBJECTS PAGE -->
+        <section class="page" id="subjectsPage">
+          <div class="content-card">
+            <div class="section-header">
+              <h2>My Subjects</h2>
+
+              <div>
+                <button class="primary-button" id="changeSubjectButton2">
+                  Change Subjects
+                </button>
+                <button class="primary-button" id="openAddSubjectBtn2" style="background: linear-gradient(135deg, #10b981, #059669); margin-left: 8px;">
+                  + Add Subject
+                </button>
+              </div>
+            </div>
+
+            <div class="subject-grid" id="allSubjects"></div>
+          </div>
+        </section>
+
+        <!-- ASSIGNMENTS PAGE -->
+        <section class="page" id="assignmentsPage">
+          <div class="content-card">
+            <div class="section-header">
+              <div>
+                <h2>My Assignments</h2>
+                <p style="color: var(--muted); margin-top: 6px">
+                  Manage your study tasks and deadlines.
+                </p>
+              </div>
+
+              <button class="primary-button" id="addTaskButton" type="button">
+                ＋ Add Task
+              </button>
+            </div>
+
+            <div id="allAssignments"></div>
+          </div>
+        </section>
+
+        <!-- PROGRESS PAGE -->
+        <section class="page" id="progressPage">
+          <div class="content-card">
+            <h2 class="section-title">My Progress</h2>
+            <div id="progressSubjects"></div>
+          </div>
+        </section>
+
+        <!-- PROFILE PAGE -->
+        <section class="page" id="profilePage">
+          <div class="content-card">
+            <h2 class="section-title">My Profile</h2>
+
+            <div class="profile-row">
+              <div class="large-avatar" id="profileAvatar">JS</div>
+
+              <div>
+                <h2 id="profileName">Student</h2>
+                <p id="profileEmail">student@example.com</p>
+              </div>
+            </div>
+
+            <p>
+              <strong>Course:</strong>
+              <span id="profileCourse">MCA</span>
+            </p>
+
+            <br />
+
+            <p>
+              <strong>Role:</strong>
+              <span id="profileRole">Student</span>
+            </p>
+          </div>
+        </section>
+
+        <!-- SETTINGS PAGE -->
+        <section class="page" id="settingsPage">
+          <div class="content-card">
+            <h2 class="section-title">Appearance Settings</h2>
+
+            <p>Choose your preferred dashboard color.</p>
+
+            <div class="theme-options">
+              <button
+                class="theme-color theme-purple"
+                data-color="#4f46e5"
+                aria-label="Purple theme"
+              ></button>
+
+              <button
+                class="theme-color theme-blue"
+                data-color="#2563eb"
+                aria-label="Blue theme"
+              ></button>
+
+              <button
+                class="theme-color theme-green"
+                data-color="#059669"
+                aria-label="Green theme"
+              ></button>
+
+              <button
+                class="theme-color theme-orange"
+                data-color="#ea580c"
+                aria-label="Orange theme"
+              ></button>
+
+              <button
+                class="theme-color theme-pink"
+                data-color="#db2777"
+                aria-label="Pink theme"
+              ></button>
+
+              <button
+                class="theme-color theme-red"
+                data-color="#dc2626"
+                aria-label="Red theme"
+              ></button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- CHANGE SUBJECT MODAL -->
+    <div class="modal" id="subjectModal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h2>Change Your Subjects</h2>
+
+          <button class="close-button" id="closeSubjectModal" type="button">
+            ×
+          </button>
+        </div>
+
+        <p class="empty">
+          Select the subjects you want to study. Your selection will be saved on
+          this device.
+        </p>
+
+        <div id="subjectOptions"></div>
+
+        <button class="primary-button" id="saveSubjectsButton" type="button">
+          Save Subjects
+        </button>
+
+        <button class="primary-button" id="modalAddSubjectBtn" type="button" style="background: linear-gradient(135deg, #10b981, #059669); width:100%; margin-top:10px;">
+          + Create New Subject
+        </button>
+      </div>
+    </div>
+
+    <!-- ADD SUBJECT MODAL -->
+    <div class="modal" id="addSubjectModal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h2>Add New Subject</h2>
+
+          <button class="close-button" id="closeAddSubjectModal" type="button">
+            ×
+          </button>
+        </div>
+
+        <form id="addSubjectForm" style="margin-top: 15px;">
+          <div style="margin-bottom: 15px;">
+            <label style="display:block; margin-bottom: 6px; font-weight:600; font-size:13px; color:#383456;">Subject Name *</label>
+            <input type="text" id="newSubjectName" placeholder="e.g. Cloud Computing" required style="width:100%; height:44px; padding:0 14px; border-radius:12px; border:1.5px solid #e1e3f0; background:#f8f9fe; font-size:14px; outline:none;" />
+          </div>
+
+          <div style="margin-bottom: 15px;">
+            <label style="display:block; margin-bottom: 6px; font-weight:600; font-size:13px; color:#383456;">Description</label>
+            <input type="text" id="newSubjectDesc" placeholder="e.g. AWS, Docker, Microservices & DevOps" style="width:100%; height:44px; padding:0 14px; border-radius:12px; border:1.5px solid #e1e3f0; background:#f8f9fe; font-size:14px; outline:none;" />
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label style="display:block; margin-bottom: 6px; font-weight:600; font-size:13px; color:#383456;">Subject Icon / Emoji</label>
+            <input type="text" id="newSubjectIcon" placeholder="e.g. ☁️, 📱, 🔒, 📖" value="📚" style="width:100%; height:44px; padding:0 14px; border-radius:12px; border:1.5px solid #e1e3f0; background:#f8f9fe; font-size:14px; outline:none;" />
+          </div>
+
+          <button class="primary-button" type="submit" id="saveNewSubjectBtn" style="width:100%;">
+            Create Subject →
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const API_URL = "http://127.0.0.1:5000";
+
+      // Retrieve saved user from localStorage (when "Remember Me" is checked)
+      // or fallback to sessionStorage (when not checked).
+      const savedUser =
+        localStorage.getItem("studyFromHomeUser") ||
+        sessionStorage.getItem("studyFromHomeUser");
+
+      if (!savedUser) {
+        // No user info found – redirect to login page.
+        window.location.href = "index.html";
+        // Stop further script execution.
+        throw new Error("No authenticated user.");
+      }
+
+      const currentUser = JSON.parse(savedUser);
+
+      let dashboardData = {
+        user: currentUser,
+        subjects: [],
+        tasks: [],
+        statistics: {},
+      };
+
+      let selectedSubjectIds = JSON.parse(
+        localStorage.getItem("selectedSubjectIds") || "[]",
+      );
+
+      const navButtons = document.querySelectorAll(".nav-button[data-page]");
+
+      const pages = document.querySelectorAll(".page");
+
+      // Logout handling
+      const logoutButton = document.getElementById("logoutButton");
+      if (logoutButton) {
+        logoutButton.addEventListener("click", () => {
+          localStorage.removeItem("studyFromHomeUser");
+          sessionStorage.removeItem("studyFromHomeUser");
+          localStorage.removeItem("rememberLogin");
+          window.location.href = "index.html";
+        });
+      }
+
+      const pageTitles = {
+        dashboardPage: "Dashboard",
+        subjectsPage: "My Subjects",
+        assignmentsPage: "Assignments",
+        progressPage: "My Progress",
+        profilePage: "Profile",
+        settingsPage: "Settings",
+      };
+
+      function escapeHTML(value) {
+        return String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function getInitials(name) {
+        return String(name || "Student")
+          .split(" ")
+          .filter(Boolean)
+          .map((word) => word.charAt(0))
+          .join("")
+          .substring(0, 2)
+          .toUpperCase();
+      }
+
+      function formatDate(dateValue) {
+        if (!dateValue) {
+          return "No due date";
+        }
+
+        const date = new Date(dateValue + "T00:00:00");
+
+        if (Number.isNaN(date.getTime())) {
+          return dateValue;
+        }
+
+        return date.toLocaleDateString("en-IN", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+      }
+
+      function getSubjectName(subjectId) {
+        const subject = dashboardData.subjects.find(
+          (item) => Number(item.id) === Number(subjectId),
+        );
+
+        return subject ? subject.name : "General Task";
+      }
+
+      function subjectHTML(subject) {
+        const progress = Math.max(
+          0,
+          Math.min(100, Number(subject.progress || 0)),
+        );
+
+        return `
+          <div class="subject-card">
+            <div class="subject-header">
+              <div>
+                <h3>${escapeHTML(subject.name)}</h3>
+                <p>${escapeHTML(
+                  subject.description || "Study and improve your knowledge.",
+                )}</p>
+              </div>
+
+              <div class="subject-icon">
+                ${escapeHTML(subject.icon || "📘")}
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <strong>${progress}% completed</strong>
+              <button type="button" onclick="editSubjectPrompt(${Number(subject.id)})" style="background:none; border:none; color:var(--primary); font-size:12px; cursor:pointer; font-weight:600; padding:2px 6px; border-radius:4px;" title="Edit Subject">
+                ✏️ Edit
+              </button>
+            </div>
+
+            <div class="progress-bar">
+              <div
+                class="progress-fill"
+                style="width: ${progress}%"
+              ></div>
+            </div>
+          </div>
+        `;
+      }
+
+      function taskHTML(task) {
+        const priority = String(task.priority || "Medium").toLowerCase();
+
+        return `
+          <div class="task-item ${task.completed ? "completed" : ""}">
+            <input
+              type="checkbox"
+              ${task.completed ? "checked" : ""}
+              onchange="updateTask(${Number(task.id)}, this.checked)"
+              aria-label="Complete ${escapeHTML(task.title)}"
+            />
+
+            <div class="task-info">
+              <strong>${escapeHTML(task.title)}</strong>
+
+              <small>
+                ${escapeHTML(task.description || "Study task")}
+                ${task.duration ? " • " + escapeHTML(task.duration) : ""}
+              </small>
+
+              <div class="task-meta">
+                <span class="task-badge subject-badge">
+                  ${escapeHTML(getSubjectName(task.subject_id))}
+                </span>
+
+                <span class="task-badge priority-${priority}">
+                  ${escapeHTML(task.priority || "Medium")} Priority
+                </span>
+
+                <span class="task-badge">
+                  Due: ${escapeHTML(formatDate(task.due_date))}
+                </span>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function getSelectedSubjects() {
+        if (!selectedSubjectIds.length) {
+          return dashboardData.subjects;
+        }
+
+        return dashboardData.subjects.filter((subject) =>
+          selectedSubjectIds.includes(Number(subject.id)),
+        );
+      }
+
+      function renderDashboard() {
+        const subjects = getSelectedSubjects();
+        const stats = dashboardData.statistics || {};
+
+        document.getElementById("totalSubjects").textContent = subjects.length;
+
+        document.getElementById("completedTasks").textContent =
+          stats.completed_tasks || 0;
+
+        document.getElementById("pendingTasks").textContent =
+          stats.pending_tasks || 0;
+
+        const progress = subjects.length
+          ? Math.round(
+              subjects.reduce(
+                (total, subject) => total + Number(subject.progress || 0),
+                0,
+              ) / subjects.length,
+            )
+          : 0;
+
+        document.getElementById("overallProgress").textContent = `${progress}%`;
+
+        document.getElementById("dashboardSubjects").innerHTML = subjects.length
+          ? subjects.map(subjectHTML).join("")
+          : `<p class="empty">No subjects selected.</p>`;
+
+        document.getElementById("dashboardTasks").innerHTML = dashboardData
+          .tasks.length
+          ? dashboardData.tasks.map(taskHTML).join("")
+          : `<p class="empty">No tasks available.</p>`;
+      }
+
+      function renderSubjects() {
+        const subjects = getSelectedSubjects();
+
+        document.getElementById("allSubjects").innerHTML = subjects.length
+          ? subjects.map(subjectHTML).join("")
+          : `<p class="empty">No subjects selected.</p>`;
+      }
+
+      function renderAssignments() {
+        const assignmentContainer = document.getElementById("allAssignments");
+
+        if (!assignmentContainer) {
+          return;
+        }
+
+        assignmentContainer.innerHTML = dashboardData.tasks.length
+          ? dashboardData.tasks.map(taskHTML).join("")
+          : `<p class="empty">No assignments available.</p>`;
+      }
+
+      function renderProgress() {
+        const subjects = getSelectedSubjects();
+
+        document.getElementById("progressSubjects").innerHTML = subjects.length
+          ? subjects
+              .map((subject) => {
+                const progress = Number(subject.progress || 0);
+
+                return `
+                    <div style="margin-bottom: 25px;">
+                      <div class="subject-header">
+                        <strong>${escapeHTML(subject.name)}</strong>
+                        <strong>${progress}%</strong>
+                      </div>
+
+                      <div class="progress-bar">
+                        <div
+                          class="progress-fill"
+                          style="width: ${progress}%"
+                        ></div>
+                      </div>
+                    </div>
+                  `;
+              })
+              .join("")
+          : `<p class="empty">No progress available.</p>`;
+      }
+
+      function renderProfile() {
+        const user = dashboardData.user || currentUser;
+        const initials = getInitials(user.name);
+
+        document.getElementById("topUserName").textContent =
+          user.name || "Student";
+
+        document.getElementById("welcomeText").textContent =
+          `Welcome back, ${user.name || "Student"}!`;
+
+        document.getElementById("topAvatar").textContent = initials;
+        document.getElementById("profileAvatar").textContent = initials;
+
+        document.getElementById("profileName").textContent =
+          user.name || "Student";
+
+        document.getElementById("profileEmail").textContent =
+          user.email || "student@example.com";
+
+        document.getElementById("profileCourse").textContent =
+          user.course || "MCA";
+
+        document.getElementById("profileRole").textContent =
+          user.role || "student";
+      }
+
+      function openSubjectModal() {
+        const subjectOptions = document.getElementById("subjectOptions");
+
+        subjectOptions.innerHTML = dashboardData.subjects
+          .map(
+            (subject) => `
+              <label class="subject-option">
+                <input
+                  type="checkbox"
+                  value="${Number(subject.id)}"
+                  ${
+                    selectedSubjectIds.includes(Number(subject.id))
+                      ? "checked"
+                      : ""
+                  }
+                />
+
+                <span>
+                  <strong>
+                    ${escapeHTML(subject.icon || "📘")}
+                    ${escapeHTML(subject.name)}
+                  </strong>
+
+                  <br />
+
+                  <small>
+                    ${escapeHTML(
+                      subject.description || "No description available.",
+                    )}
+                  </small>
+                </span>
+              </label>
+            `,
+          )
+          .join("");
+
+        document.getElementById("subjectModal").classList.add("show");
+      }
+
+      function closeSubjectModal() {
+        document.getElementById("subjectModal").classList.remove("show");
+      }
+
+      function openAddTaskModal() {
+        const subjectSelect = document.getElementById("taskSubject");
+
+        subjectSelect.innerHTML = `
+          <option value="">Select subject</option>
+          ${dashboardData.subjects
+            .map(
+              (subject) => `
+                <option value="${Number(subject.id)}">
+                  ${escapeHTML(subject.name)}
+                </option>
+              `,
+            )
+            .join("")}
+        `;
+
+        document.getElementById("addTaskModal").classList.add("show");
+      }
+
+      function closeAddTaskModal() {
+        document.getElementById("addTaskModal").classList.remove("show");
+        document.getElementById("addTaskForm").reset();
+      }
+
+      navButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const pageId = button.dataset.page;
+
+          pages.forEach((page) => {
+            page.classList.remove("active");
+          });
+
+          navButtons.forEach((nav) => {
+            nav.classList.remove("active");
+          });
+
+          const selectedPage = document.getElementById(pageId);
+
+          if (selectedPage) {
+            selectedPage.classList.add("active");
+          }
+
+          button.classList.add("active");
+
+          document.getElementById("pageTitle").textContent =
+            pageTitles[pageId] || "Dashboard";
+        });
+      });
+
+
+
+      document
+        .getElementById("changeSubjectButton")
+        .addEventListener("click", openSubjectModal);
+
+      document
+        .getElementById("changeSubjectButton2")
+        .addEventListener("click", openSubjectModal);
+
+      document
+        .getElementById("closeSubjectModal")
+        .addEventListener("click", closeSubjectModal);
+
+      document
+        .getElementById("saveSubjectsButton")
+        .addEventListener("click", () => {
+          const checkedSubjects = document.querySelectorAll(
+            "#subjectOptions input[type='checkbox']:checked",
+          );
+
+          selectedSubjectIds = Array.from(checkedSubjects).map((checkbox) =>
+            Number(checkbox.value),
+          );
+
+          localStorage.setItem(
+            "selectedSubjectIds",
+            JSON.stringify(selectedSubjectIds),
+          );
+
+          renderDashboard();
+          renderSubjects();
+          renderProgress();
+
+          closeSubjectModal();
+        });
+
+      function openAddSubjectModal() {
+        document.getElementById("addSubjectModal").classList.add("show");
+      }
+
+      function closeAddSubjectModal() {
+        document.getElementById("addSubjectModal").classList.remove("show");
+        document.getElementById("addSubjectForm").reset();
+      }
+
+      document.getElementById("openAddSubjectBtn").addEventListener("click", openAddSubjectModal);
+      document.getElementById("openAddSubjectBtn2").addEventListener("click", openAddSubjectModal);
+      document.getElementById("modalAddSubjectBtn").addEventListener("click", openAddSubjectModal);
+      document.getElementById("closeAddSubjectModal").addEventListener("click", closeAddSubjectModal);
+
+      document.getElementById("addSubjectForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const nameInput = document.getElementById("newSubjectName");
+        const descInput = document.getElementById("newSubjectDesc");
+        const iconInput = document.getElementById("newSubjectIcon");
+        const saveBtn = document.getElementById("saveNewSubjectBtn");
+
+        const name = nameInput.value.trim();
+        const description = descInput.value.trim();
+        const icon = iconInput.value.trim() || "📚";
+
+        if (!name) return;
+
+        saveBtn.disabled = true;
+        saveBtn.textContent = "Creating...";
+
+        try {
+          const response = await fetch(`${API_URL}/api/subjects`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, description, icon })
+          });
+
+          const result = await response.json();
+
+          if (!response.ok || !result.success) {
+            alert(result.message || "Failed to add subject");
+            return;
+          }
+
+          const newSub = result.subject;
+          dashboardData.subjects.push(newSub);
+
+          if (!selectedSubjectIds.includes(Number(newSub.id))) {
+            selectedSubjectIds.push(Number(newSub.id));
+            localStorage.setItem("selectedSubjectIds", JSON.stringify(selectedSubjectIds));
+          }
+
+          closeAddSubjectModal();
+          closeSubjectModal();
+
+          updateStatistics();
+          renderDashboard();
+          renderSubjects();
+          renderProgress();
+
+          alert(`Subject "${newSub.name}" added successfully!`);
+        } catch (err) {
+          console.error("Add subject error:", err);
+          alert("Error adding subject. Make sure Flask is running.");
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.textContent = "Create Subject →";
+        }
+      });
+
+      window.editSubjectPrompt = async function(subjectId) {
+        const subject = dashboardData.subjects.find((s) => Number(s.id) === Number(subjectId));
+        if (!subject) return;
+
+        const newName = prompt("Edit Subject Name:", subject.name);
+        if (newName === null) return;
+        if (!newName.trim()) return;
+
+        const newDesc = prompt("Edit Subject Description:", subject.description || "");
+        if (newDesc === null) return;
+
+        const newIcon = prompt("Edit Subject Icon/Emoji:", subject.icon || "📚");
+        if (newIcon === null) return;
+
+        try {
+          const response = await fetch(`${API_URL}/api/subjects/${subjectId}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              name: newName.trim(),
+              description: newDesc.trim(),
+              icon: newIcon.trim() || "📚"
+            })
+          });
+
+          const result = await response.json();
+          if (!response.ok || !result.success) {
+            alert(result.message || "Failed to update subject");
+            return;
+          }
+
+          subject.name = newName.trim();
+          subject.description = newDesc.trim();
+          subject.icon = newIcon.trim() || "📚";
+
+          renderDashboard();
+          renderSubjects();
+          renderProgress();
+        } catch (err) {
+          console.error("Edit subject error:", err);
+          alert("Could not update subject.");
+        }
+      };
+
+      document
+        .getElementById("addTaskButton")
+        .addEventListener("click", openAddTaskModal);
+
+      document
+        .getElementById("closeAddTaskModal")
+        .addEventListener("click", closeAddTaskModal);
+
+      document
+        .getElementById("cancelAddTask")
+        .addEventListener("click", closeAddTaskModal);
+
+      document
+        .getElementById("addTaskForm")
+        .addEventListener("submit", saveNewTask);
+
+      async function saveNewTask(event) {
+        event.preventDefault();
+
+        const title = document.getElementById("taskTitle").value.trim();
+
+        const subjectId = Number(document.getElementById("taskSubject").value);
+
+        const dueDate = document.getElementById("taskDueDate").value;
+
+        const priority = document.getElementById("taskPriority").value;
+
+        if (!title || !subjectId || !dueDate) {
+          alert("Please fill all required fields.");
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_URL}/api/tasks`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              user_id: currentUser.id,
+              subject_id: subjectId,
+              title: title,
+              due_date: dueDate,
+              priority: priority,
+            }),
+          });
+
+          const result = await response.json();
+
+          if (!response.ok || !result.success) {
+            throw new Error(result.message || "Unable to save task");
+          }
+
+          const createdTask = result.task || result.data;
+          if (createdTask) {
+            dashboardData.tasks.push(createdTask);
+          }
+
+          updateStatistics();
+
+          renderDashboard();
+          renderAssignments();
+          renderProgress();
+
+          closeAddTaskModal();
+
+          alert("Task added successfully.");
+        } catch (error) {
+          console.error("Add task error:", error);
+          alert("Could not save task. Make sure app.py is running.");
+        }
+      }
+
+
+
+      document.querySelectorAll(".theme-color").forEach((button) => {
+        button.addEventListener("click", () => {
+          const color = button.dataset.color;
+
+          document.documentElement.style.setProperty("--primary", color);
+
+          document.documentElement.style.setProperty(
+            "--primary-light",
+            `${color}18`,
+          );
+
+          localStorage.setItem("dashboardThemeColor", color);
+
+          document.querySelectorAll(".theme-color").forEach((item) => {
+            item.classList.remove("selected");
+          });
+
+          button.classList.add("selected");
+        });
+      });
+
+      function loadSavedTheme() {
+        const savedColor = localStorage.getItem("dashboardThemeColor");
+
+        if (!savedColor) {
+          return;
+        }
+
+        document.documentElement.style.setProperty("--primary", savedColor);
+
+        document.documentElement.style.setProperty(
+          "--primary-light",
+          `${savedColor}18`,
+        );
+
+        document.querySelectorAll(".theme-color").forEach((button) => {
+          if (button.dataset.color === savedColor) {
+            button.classList.add("selected");
+          }
+        });
+      }
+
+      async function loadDashboard() {
+        try {
+          const response = await fetch(
+            `${API_URL}/api/dashboard/${currentUser.id}`,
+          );
+
+          const result = await response.json();
+
+          if (!response.ok || !result.success) {
+            throw new Error(result.message || "Unable to load dashboard");
+          }
+
+          dashboardData = result.data;
+
+          if (!selectedSubjectIds.length) {
+            selectedSubjectIds = dashboardData.subjects.map((subject) =>
+              Number(subject.id),
+            );
+
+            localStorage.setItem(
+              "selectedSubjectIds",
+              JSON.stringify(selectedSubjectIds),
+            );
+          }
+
+          renderDashboard();
+          renderSubjects();
+          renderAssignments();
+          renderProgress();
+          renderProfile();
+        } catch (error) {
+          console.error("Dashboard error:", error);
+
+          document.getElementById("dashboardSubjects").innerHTML = `
+            <p class="empty">
+              Unable to load subjects. Make sure app.py is running.
+            </p>
+          `;
+
+          document.getElementById("dashboardTasks").innerHTML = `
+            <p class="empty">
+              Unable to load tasks. Make sure app.py is running.
+            </p>
+          `;
+        }
+      }
+
+      function updateStatistics() {
+        if (!dashboardData || !dashboardData.tasks) return;
+
+        if (dashboardData.subjects) {
+          dashboardData.subjects.forEach((subject) => {
+            const subjectTasks = dashboardData.tasks.filter((t) => {
+              if (Number(t.subject_id) === Number(subject.id)) return true;
+              const desc = String(t.description || "").toLowerCase();
+              const title = String(t.title || "").toLowerCase();
+              const sName = String(subject.name || "").toLowerCase();
+              return sName && (desc.includes(sName) || title.includes(sName));
+            });
+
+            if (subjectTasks.length > 0) {
+              const completedCount = subjectTasks.filter((t) => t.completed).length;
+              subject.progress = Math.round((completedCount / subjectTasks.length) * 100);
+            } else {
+              subject.progress = 0;
+            }
+          });
+        }
+
+        const totalCompleted = dashboardData.tasks.filter((t) => t.completed).length;
+        const totalPending = dashboardData.tasks.length - totalCompleted;
+
+        if (!dashboardData.statistics) dashboardData.statistics = {};
+        dashboardData.statistics.completed_tasks = totalCompleted;
+        dashboardData.statistics.pending_tasks = totalPending;
+      }
+
+      async function updateTask(taskId, completed) {
+        try {
+          const task = dashboardData.tasks.find(
+            (item) => Number(item.id) === Number(taskId)
+          );
+
+          if (task) {
+            task.completed = completed;
+          }
+
+          updateStatistics();
+
+          renderDashboard();
+          renderSubjects();
+          renderAssignments();
+          renderProgress();
+
+          const response = await fetch(`${API_URL}/api/tasks/${taskId}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              completed: completed,
+            }),
+          });
+
+          const result = await response.json();
+
+          if (!response.ok || !result.success) {
+            throw new Error(result.message || "Task update failed");
+          }
+        } catch (error) {
+          console.error("Task update error:", error);
+          alert("Could not update task. Check that Flask is running.");
+        }
+      }
+
+      window.updateTask = updateTask;
+
+      window.addEventListener("click", (event) => {
+        if (event.target.classList.contains("modal")) {
+          event.target.classList.remove("show");
+        }
+      });
+
+      loadSavedTheme();
+      loadDashboard();
+    </script>
+  </body>
+</html>

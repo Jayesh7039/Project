@@ -1,0 +1,24 @@
+{
+  "progress": [
+    {
+      "user_id": 1,
+      "subject_id": 1,
+      "percentage": 0
+    },
+    {
+      "user_id": 1,
+      "subject_id": 2,
+      "percentage": 0
+    },
+    {
+      "user_id": 1,
+      "subject_id": 3,
+      "percentage": 0
+    },
+    {
+      "user_id": 1,
+      "subject_id": 4,
+      "percentage": 0
+    }
+  ]
+}

@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study From Home | Login</title>
+
+  <style>
+    :root {
+      --primary-gradient-start: #6845ed;
+      --primary-gradient-end: #9b55ff;
+      --bg-light: rgba(255, 255, 255, 0.8);
+      --bg-dark: rgba(30,30,30,0.9);
+      --text-color: #202044;
+      --accent-color: #7652ff;
+      --radius: 1.75rem;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 25px;
+      background:
+        radial-gradient(circle at top left, #dcd5ff, transparent 35%),
+        linear-gradient(135deg, #f7f8ff, #e9eaff);
+      color: #202044;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 1150px;
+      min-height: 650px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 28px;
+      background: var(--bg-light);
+      box-shadow: 0 25px 80px rgba(63, 52, 130, 0.2);
+      backdrop-filter: blur(20px);
+    }
+
+    .art-section {
+      position: relative;
+      overflow: hidden;
+      padding: 55px;
+      color: white;
+      background:
+        linear-gradient(145deg, #5b3df5, #8c52ff 55%, #c36bff);
+    }
+
+    .art-section::before,
+    .art-section::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(2px);
+      opacity: 0.35;
+    }
+
+    .art-section::before {
+      width: 320px;
+      height: 320px;
+      top: -130px;
+      right: -100px;
+      background: #ffffff;
+    }
+
+    .art-section::after {
+      width: 260px;
+      height: 260px;
+      bottom: -100px;
+      left: -100px;
+      background: #00e5ff;
+    }
+
+    .brand {
+      position: relative;
+      z-index: 2;
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .brand span {
+      color: #ffe66d;
+    }
+
+    .art-content {
+      position: relative;
+      z-index: 2;
+      margin-top: 95px;
+    }
+
+    .art-content h1 {
+      max-width: 420px;
+      font-size: 48px;
+      line-height: 1.15;
+      margin-bottom: 22px;
+    }
+
+    .art-content p {
+      max-width: 410px;
+      line-height: 1.8;
+      color: #eeeaff;
+      font-size: 15px;
+    }
+
+    .learning-card {
+      position: absolute;
+      z-index: 3;
+      right: 45px;
+      bottom: 65px;
+      width: 290px;
+      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 15px 35px rgba(35, 15, 100, 0.2);
+    }
+
+    .learning-card small {
+      color: #e8ddff;
+    }
+
+    .learning-card h3 {
+      margin: 8px 0 15px;
+      font-size: 24px;
+    }
+
+    .progress {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .progress div {
+      width: 76%;
+      height: 100%;
+      border-radius: inherit;
+      background: #ffe66d;
+    }
+
+    .student-icons {
+      display: flex;
+      margin-top: 22px;
+    }
+
+    .student-icons span {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      margin-right: -8px;
+      border: 3px solid #7950f2;
+      border-radius: 50%;
+      color: #5b3df5;
+      font-size: 14px;
+      font-weight: 700;
+      background: white;
+    }
+
+    .form-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 55px;
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .form-box {
+      width: 100%;
+      max-width: 390px;
+    }
+
+    .form-box h2 {
+      margin-bottom: 10px;
+      font-size: 34px;
+      color: #242044;
+    }
+
+    .form-box .subtitle {
+      margin-bottom: 35px;
+      color: #85839d;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 22px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 9px;
+      color: #4f4b72;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 15px 45px 15px 16px;
+      border: 1px solid #e3e2f1;
+      border-radius: 13px;
+      outline: none;
+      color: #302b50;
+      background: #fafaff;
+      transition: 0.3s;
+    }
+
+    .input-group input:focus {
+      border-color: #7652ff;
+      box-shadow: 0 0 0 4px rgba(118, 82, 255, 0.12);
+    }
+
+    .input-icon {
+      position: absolute;
+      right: 16px;
+      bottom: 15px;
+      color: #9c98ba;
+      font-size: 18px;
+    }
+
+    .password-toggle {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .password-strength {
+      height: 5px;
+      margin-top: -12px;
+      margin-bottom: 18px;
+      overflow: hidden;
+      border-radius: 20px;
+      background: #eeeef8;
+    }
+
+    .password-strength div {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      transition: 0.3s;
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 25px;
+      font-size: 12px;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: #77738f;
+    }
+
+    .remember input {
+      accent-color: #7652ff;
+    }
+
+    .form-options a,
+    .signup a {
+      color: #6845ed;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 13px;
+      cursor: pointer;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6845ed, #9b55ff);
+      box-shadow: 0 12px 25px rgba(104, 69, 237, 0.25);
+      transition: 0.3s;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 17px 30px rgba(104, 69, 237, 0.35);
+    }
+
+    .login-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 28px 0;
+      color: #aaa6c0;
+      font-size: 12px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #e8e6f2;
+    }
+
+    .social-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .social-buttons button {
+      padding: 13px;
+      border: 1px solid #e6e4f2;
+      border-radius: 12px;
+      cursor: pointer;
+      color: #514c70;
+      font-weight: 600;
+      background: white;
+      transition: 0.3s;
+    }
+
+    .social-buttons button:hover {
+      border-color: #7652ff;
+      background: #f8f6ff;
+    }
+
+    .signup {
+      margin-top: 28px;
+      text-align: center;
+      color: #85819d;
+      font-size: 13px;
+    }
+
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .login-container {
+        grid-template-columns: 1fr;
+        max-width: 550px;
+      }
+
+      .art-section {
+        min-height: 430px;
+        padding: 38px;
+      }
+
+      .art-content {
+        margin-top: 55px;
+      }
+
+      .art-content h1 {
+        font-size: 38px;
+      }
+
+      .learning-card {
+        right: 30px;
+        bottom: 30px;
+        width: 250px;
+      }
+
+      .form-section {
+        padding: 40px 30px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      body {
+        padding: 12px;
+      }
+
+      .login-container {
+        border-radius: 20px;
+      }
+
+      .art-section {
+        min-height: 410px;
+        padding: 28px;
+      }
+
+      .art-content h1 {
+        font-size: 32px;
+      }
+
+      .learning-card {
+        right: 25px;
+        left: 25px;
+        bottom: 25px;
+        width: auto;
+      }
+
+      .form-section {
+        padding: 35px 25px;
+      }
+
+      .form-box h2 {
+        font-size: 29px;
+      }
+
+      .form-options {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="login-container">
+
+    <section class="art-section">
+      <div class="brand">Study <span>From Home</span></div>
+
+      <div class="art-content">
+        <h1>Learn smarter. Anywhere. Anytime.</h1>
+
+        <p>
+          Build your knowledge, improve your skills, and continue your
+          learning journey from the comfort of your home.
+        </p>
+      </div>
+
+      <div class="learning-card">
+        <small>Your learning progress</small>
+        <h3>76% completed</h3>
+
+        <div class="progress">
+          <div></div>
+        </div>
+
+        <div class="student-icons">
+          <span>JS</span>
+          <span>PY</span>
+          <span>DB</span>
+          <span>AI</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <div class="form-box">
+
+        <h2>Welcome back!</h2>
+
+        <p class="subtitle">
+          Login to continue your learning journey with Study From Home.
+        </p>
+
+        <form id="loginForm">
+
+          <div class="input-group">
+            <label for="email">Email Address</label>
+
+            <input type="email" id="email" placeholder="Enter your email" autocomplete="email" required />
+
+            <span class="input-icon">✉</span>
+          </div>
+
+          <div class="input-group">
+            <label for="password">Password</label>
+
+            <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password"
+              required />
+
+            <span class="input-icon password-toggle" id="togglePassword" role="button" tabindex="0"
+              aria-label="Show or hide password">👁</span>
+          </div>
+
+          <div class="password-strength">
+            <div id="strengthBar"></div>
+          </div>
+
+          <div class="form-options">
+            <label class="remember">
+              <input type="checkbox" id="remember" />
+              Remember me
+            </label>
+
+            <a href="#" id="forgotPassword">Forgot password?</a>
+          </div>
+
+          <button class="login-btn" type="submit" id="loginButton">
+            Login to Account →
+          </button>
+        </form>
+
+        <div class="message" id="message" role="alert"></div>
+
+        <div class="social-buttons">
+          <button type="button" id="googleLogin">Google</button>
+          <button type="button" id="githubLogin">GitHub</button>
+        </div>
+
+        <p class="signup">
+          Don't have an account?
+          <a href="register.html" id="createAccount">Create account</a>
+        </p>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
+    const strengthBar = document.getElementById("strengthBar");
+    const message = document.getElementById("message");
+    const loginButton = document.getElementById("loginButton");
+
+    const API_URL = "http://127.0.0.1:5000/api/login";
+
+    function showMessage(text, error = false) {
+      message.style.display = "block";
+      message.textContent = text;
+      message.style.color = error ? "#a92740" : "#236b43";
+      message.style.background = error ? "#ffe8ed" : "#e5f8ec";
+    }
+
+    function togglePasswordVisibility() {
+      const isPassword = passwordInput.type === "password";
+
+      passwordInput.type = isPassword ? "text" : "password";
+      togglePassword.textContent = isPassword ? "🙈" : "👁";
+
+      togglePassword.setAttribute(
+        "aria-label",
+        isPassword ? "Hide password" : "Show password"
+      );
+    }
+
+    togglePassword.addEventListener("click", togglePasswordVisibility);
+
+    togglePassword.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        togglePasswordVisibility();
+      }
+    });
+
+    passwordInput.addEventListener("input", () => {
+      const password = passwordInput.value;
+      let strength = 0;
+
+      if (password.length >= 6) strength += 25;
+      if (password.length >= 10) strength += 25;
+      if (/[A-Z]/.test(password)) strength += 25;
+      if (/[0-9]/.test(password)) strength += 15;
+      if (/[^A-Za-z0-9]/.test(password)) strength += 10;
+
+      strengthBar.style.width = strength + "%";
+
+      if (strength < 40) {
+        strengthBar.style.background = "#ff5d73";
+      } else if (strength < 75) {
+        strengthBar.style.background = "#ffbd59";
+      } else {
+        strengthBar.style.background = "#35c77a";
+      }
+    });
+
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!email || !password) {
+        showMessage("Please fill in all fields.", true);
+        return;
+      }
+
+      loginButton.disabled = true;
+      loginButton.textContent = "Logging in...";
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password
+          })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          showMessage(
+            result.message || "Invalid email or password.",
+            true
+          );
+          return;
+        }
+
+        const userData = JSON.stringify(result.user);
+
+        if (document.getElementById("remember").checked) {
+          localStorage.setItem("studyFromHomeUser", userData);
+        } else {
+          sessionStorage.setItem("studyFromHomeUser", userData);
+        }
+
+        showMessage("Login successful. Opening dashboard...");
+
+        setTimeout(() => {
+          window.location.href = "dashboard.html";
+        }, 1);
+
+      } catch (error) {
+        console.error("Login error:", error);
+
+        showMessage(
+          "Backend is not running. Start app.py first.",
+          true
+        );
+
+      } finally {
+        loginButton.disabled = false;
+        loginButton.textContent = "Login to Account →";
+      }
+    });
+
+    document
+      .getElementById("forgotPassword")
+      .addEventListener("click", (event) => {
+        event.preventDefault();
+        const email = emailInput.value.trim();
+        if (!email) {
+          const userEmail = prompt("Enter your registered email address to reset your password:");
+          if (userEmail && userEmail.includes("@")) {
+            showMessage(`A password reset link has been sent to ${userEmail}. Check your inbox!`);
+          } else if (userEmail) {
+            showMessage("Please enter a valid email address.", true);
+          }
+        } else {
+          showMessage(`A password reset link has been sent to ${email}. Check your inbox!`);
+        }
+      });
+
+    document
+      .getElementById("createAccount")
+      .addEventListener("click", () => {
+        window.location.href = "register.html";
+      });
+
+    document
+      .getElementById("googleLogin")
+      .addEventListener("click", () => {
+        window.open("https://www.google.com", "_blank");
+      });
+
+    document
+      .getElementById("githubLogin")
+      .addEventListener("click", () => {
+        window.open("https://www.github.com", "_blank");
+      });
+  </script>
+
+</body>
+
+</html>
